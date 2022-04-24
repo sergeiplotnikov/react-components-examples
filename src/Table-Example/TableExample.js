@@ -3,7 +3,7 @@ import { GenericTable } from '../components';
 import tableData from '../tableData1';
 import { headers } from './';
 
-export default function CC12() {
+export default function TableExample() {
   return (
     <GenericTable
       data={tableData}
