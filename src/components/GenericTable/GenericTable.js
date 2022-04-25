@@ -2,13 +2,13 @@ import React from 'react';
 
 export default function GenericTable(props) {
   function renderGroup(groupingValue) {
-    return renderTable(
-      props.data.filter(
-        (x) =>
-          getPropertyFromObject(x, props.groupBy.split('.')) === groupingValue
-      ),
-      props.header
-    );
+    function getGroupingValueRows(dataRow) {
+      return (
+        getPropertyFromObject(dataRow, props.groupBy.split('.')) ===
+        groupingValue
+      );
+    }
+    return renderTable(props.data.filter(getGroupingValueRows), props.header);
   }
 
   if (props.groupBy)
@@ -43,7 +43,8 @@ function renderTable(tableData, tableHeader) {
 
 function getUniqueValues(groupBy) {
   return function (acc, item) {
-    if (acc.includes(getPropertyFromObject(item, groupBy.split('.')))) return acc;
+    if (acc.includes(getPropertyFromObject(item, groupBy.split('.'))))
+      return acc;
     return [...acc, getPropertyFromObject(item, groupBy.split('.'))];
   };
 }
