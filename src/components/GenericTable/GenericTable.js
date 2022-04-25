@@ -1,8 +1,21 @@
 import React from 'react';
 
 export default function GenericTable(props) {
-  if (props.groupedBy) return <>{props.data.map(renderTable, props.header)}</>;
+  if (props.groupBy) return <>{props.data.reduce(getUniqueValues(props.groupBy), []).map(renderGroup(props.data, props.header, props.groupBy))}</>;
   return renderTable(props.data, props.header);
+};
+
+function renderGroup(tableData, tableHeader, groupBy) {
+  return function(groupingValue) {
+    return renderTable(tableData.filter(x => getPropertyFromObject(x, groupBy.split('.')) === groupingValue), tableHeader);
+  }
+}
+
+function getUniqueValues(groupBy) {
+  return function (acc, item) {
+    if (acc.includes(item[groupBy])) return acc;
+    return [...acc, item[groupBy]];
+  };
 };
 
 function renderColumnHeader(columnHeader) {
