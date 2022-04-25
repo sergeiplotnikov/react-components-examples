@@ -8,7 +8,7 @@ export default function TableExample() {
     <GenericTable
       data={tableData}
       header={headers}
-      groupBy='status'
+      groupBy='aaa.ccc'
     />
   );
 };
